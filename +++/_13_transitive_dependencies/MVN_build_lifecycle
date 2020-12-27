@@ -1,0 +1,151 @@
+    Три основных цикла (lifecycle):
+        clean
+        default (or build)
+        site
+
+    Основные этапы (phase) подциклов:
+        подготовка ресурсов - (*-resources)
+        валидация - validate
+        компиляция - compile
+        тестирование - test
+        упаковка JAR/WAR/EAR - package
+        установка (в репозиторий) - install
+        деплой - deploy
+
+    Команды (goals):
+        pre-clean
+        clean
+        post-clean
+
+        mvn compile
+        mvn clean
+        mvn site
+
+1 - в терминале
+mvn compile
+    - появилась папка target
+2
+mvn package
+    - в target появилась
+        ideaProject_Maven_2_onfreetube-1.0-SNAPSHOT.jar
+3
+mvn clean
+    - target удаляется
+
+4 вывод переменной окружения для профиля env-dev
+    для активации пишем параметр ""-P env-dev"
+mvn compile -P env-dev
+
+5
+mvn compile -Denv=develop
+
+6 активация профиля сборки по умолчанию
+mvn compile
+
+7 активация через файл настроек
+    C:\Users\User\.m2\settings.xml
+    если много проектов то не надо лезть в pom.xml
+mvn compile
+
+8 если в файле настроек не то что надо, то
+mvn compile -P !env-dev,env-prod
+
+9 настройки в директории мавена
+    он лежит тут
+    C:\Program Files\apache-maven-3.6.3\conf
+
+
+11 репозитории
+    - local
+        по умолчанию User/home
+            C:\Users\User\.m2\repository
+        перенастроить можно здесь
+            C:\Program Files\apache-maven-3.6.3\conf\settings.xml
+
+            <settings>
+              <!-- localRepository
+               | The path to the local repository maven will use to store artifacts.
+               |
+               | Default: ${user.home}/.m2/repository
+              <localRepository>/path/to/local/repo</localRepository>
+              -->
+
+    - central (https://search.maven.org/#browse)
+        для поиска необходимой зависимости
+
+    - remote (удаленные)
+        в pom.xml
+
+12 плагины
+    мавен - фреймворк, выполняющий плагины
+    mvn [plugin-name]:[goal-name]
+
+    типы
+    - build
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId></groupId>
+                    <artifactId></artifactId>
+                    <version></version>
+
+                    <executions>    // выполняется при запуске валидации
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                                    // конфигурации включают задачу,
+                            <configuration>
+                                <tasks>      // которую он выполнит
+                                    <echo>Hello! I'm running</echo>     // вывод ПРИВЕТ
+                                    <echo>CURRENT ENV IS: ${app.env}</echo>
+                                </tasks>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                </plugin>
+
+                <plugin>
+                </plugin>
+            </plugins>
+        </build>
+
+
+    - report
+        <reporting>
+
+        </reporting>
+
+13
+    Transitive Dependencies
+    Ваш_проект -> X -> Y
+
+    Ваш_проект -> Y -> Z -> P (SNAPSHOT 2.5)    // вервия новее
+    Ваш_проект -> E -> P (SNAPSHOT 2.1)     // мавен выберет короткий путь
+                          // в dependencyManagement выбираем какую
+
+    <dependencyManagement>
+        <dependency>
+            <groupId>my</groupId>
+            <artifactId>P</artifactId>
+            <version>2.5</version>
+        </dependency>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>my</groupId>
+            <artifactId>Y</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>my</groupId>
+            <artifactId>E</artifactId>
+            <version>1</version>
+        </dependency>
+    </dependencies>
+

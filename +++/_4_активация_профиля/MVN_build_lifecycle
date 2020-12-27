@@ -1,0 +1,37 @@
+    Три основных цикла (lifecycle):
+        clean
+        default (or build)
+        site
+
+    Основные этапы (phase) подциклов:
+        подготовка ресурсов - (*-resources)
+        валидация - validate
+        компиляция - compile
+        тестирование - test
+        упаковка JAR/WAR/EAR - package
+        установка (в репозиторий) - install
+        деплой - deploy
+
+    Команды (goals):
+        pre-clean
+        clean
+        post-clean
+
+        mvn compile
+        mvn clean
+        mvn site
+
+1 - в терминале
+mvn compile
+    - появилась папка target
+2
+mvn package
+    - в target появилась
+        ideaProject_Maven_2_onfreetube-1.0-SNAPSHOT.jar
+3
+mvn clean
+    - target удаляется
+
+4 вывод переменной окружения для профиля env-dev
+    для активации пишем параметр ""-P env-dev"
+mvn compile -P env-dev
